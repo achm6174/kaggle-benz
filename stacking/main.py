@@ -14,10 +14,19 @@ cache_dir = 'data'
 Y = df_train['y']
 
 stack_index = rankdata(Y, method='ordinal')
-stack_index = stack_index % 10
-df_train['stack_index'] = stack_index
-df_stack_index = df_train.loc[:,['ID', 'stack_index']]
-#df_stack_index.groupby("stack_index").mean()['y']
+stack_index = stack_index % 20
+for i in range(len(stack_index)):
+    if stack_index[i] >= 10:
+        stack_index[i] = 19 - stack_index[i]
 
+df_train['stack_index'] = stack_index
+df_stack_index = df_train.loc[:,['ID', 'stack_index', 'y']]
+print df_stack_index.groupby("stack_index").mean()['y']
+print df_stack_index.groupby("stack_index").count()['y']
+
+del df_stack_index['y']
+
+assert df_stack_index.shape[0] ==  df_train.shape[0]
+assert all(df_stack_index.ID ==  df_train.ID)
 
 df_stack_index.to_csv(os.path.join(cache_dir,'stack_index.csv'), index=False)

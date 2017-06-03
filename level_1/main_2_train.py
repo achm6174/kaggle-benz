@@ -46,7 +46,7 @@ for i in range(0, max(df_stack_index.stack_index+1)):
 
     dv = DictVectorizer()
     sfs = SFS(LinearRegression(),
-              k_features=1,
+              k_features=50,
               forward=True,
               floating=False,
               verbose=2,

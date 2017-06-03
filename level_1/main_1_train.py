@@ -5,11 +5,17 @@ import copy
 from sklearn.decomposition import PCA, FastICA
 from sklearn.decomposition import TruncatedSVD
 import xgboost as xgb
+from sklearn.metrics import r2_score
 
 # read stack index
 df_stack_index = pd.read_csv("data/stack_index.csv")
 train_original = pd.read_csv('data/train.csv')
 test_original = pd.read_csv('data/test.csv')
+
+def xgb_r2_score(preds, dtrain):
+    labels = dtrain.get_label()
+    return 'r2', r2_score(labels, preds)
+
 
 # process columns, apply LabelEncoder to categorical features
 for c in train_original.columns:
@@ -74,17 +80,20 @@ for i in range(0, max(df_stack_index.stack_index+1)):
 
     # prepare dict of params for xgboost to run with
     xgb_params = {
-        'n_trees': 500,
         'eta': 0.005,
         'max_depth': 4,
         'subsample': 0.95,
         'objective': 'reg:linear',
-        'eval_metric': 'rmse',
         'base_score': y_mean, # base prediction = mean(target)
         'seed': 6174,
-        'silent': 1
+        'silent': 1,
+        'eval_metric': 'mae'
     }
 
+
+    def xgb_r2_score(preds, dtrain):
+        labels = dtrain.get_label()
+        return 'rmse', r2_score(labels, preds)
 
     # form DMatrices for Xgboost training
     dtrain = xgb.DMatrix(train.drop('y', axis=1), y_train)
@@ -93,15 +102,17 @@ for i in range(0, max(df_stack_index.stack_index+1)):
     # xgboost, cross-validation
     cv_result = xgb.cv(xgb_params,
                       dtrain,
-                      num_boost_round=1000, # increase to have better results (~700)
-                      early_stopping_rounds=50,
+                      feval=xgb_r2_score,
+                      num_boost_round=10000, # increase to have better results (~700)
+                      early_stopping_rounds=100,
                       verbose_eval=50,
-                      show_stdv=False
+                      show_stdv=False,
+                      maximize=True
                      )
     best_iteration = cv_result.shape[0] - 1
     print best_iteration
-    cv_mean = cv_result.iloc[-1, 0]
-    cv_std = cv_result.iloc[-1, 1]
+    cv_mean = cv_result.iloc[-1, 2]
+    cv_std = cv_result.iloc[-1, 3]
     print('CV-Mean: {0}+{1}'.format(cv_mean, cv_std))
     #num_boost_rounds = len(cv_result)
     #print('num_boost_rounds=' + str(num_boost_rounds))
@@ -111,7 +122,6 @@ for i in range(0, max(df_stack_index.stack_index+1)):
 
 
     # check f2-score (to get higher score - increase num_boost_round in previous cell)
-    from sklearn.metrics import r2_score
     print(r2_score(model.predict(dtrain), dtrain.get_label()))
 
     # make predictions and save results
