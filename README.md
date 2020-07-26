@@ -1,6 +1,6 @@
 ## Summary
 Please refer to my blog post:
-https://achm6174.github.io/data-science/kaggle/2017/11/26/chung2017kagglebenz.html
+https://achm6174.github.io/data-science/chung2017kagglebenz.html
 
 ## Instruction
 
