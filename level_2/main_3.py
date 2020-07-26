@@ -8,9 +8,9 @@ df_1 = pd.read_csv("level_1/cache/train/main_1.csv")
 df_2 = pd.read_csv("level_1/cache/train/main_2.csv")
 df_4 = pd.read_csv("level_1/cache/train/main_4.csv")
 
-print r2_score(df_train.y.values, (df_1.y.values))
-print r2_score(df_train.y.values, (df_2.y.values))
-print r2_score(df_train.y.values, (df_4.y.values))
+print(r2_score(df_train.y.values, (df_1.y.values)))
+print(r2_score(df_train.y.values, (df_2.y.values)))
+print(r2_score(df_train.y.values, (df_4.y.values)))
 
 from scipy.optimize import minimize
 
@@ -29,10 +29,10 @@ res = minimize(f,initial_guess,args = [
                                       df_4.y.values
                                      ]
                               ,method='Nelder-Mead')
-print res
+print(res)
 
 tmp = (res.x[0]*(df_1.y.values)  + res.x[1]*(df_2.y.values) + res.x[2]*(df_4.y.values))
-print r2_score(df_train.y.values, tmp)
+print(r2_score(df_train.y.values, tmp))
 
 
 df_1_test = pd.read_csv("level_1/cache/test/main_1.csv")

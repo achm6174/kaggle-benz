@@ -103,7 +103,7 @@ for i in range(0, max(df_stack_index.stack_index+1)):
     pred = np.array([0. for x in range(len(test))])
     num_bags = 5
     for i in range(num_bags):
-        print "#" + str(i)
+        print("#" + str(i))
         model.fit(train.drop(["y"], axis=1).values,
                         y_train,
                         batch_size=32,

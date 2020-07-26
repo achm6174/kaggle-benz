@@ -21,8 +21,8 @@ for i in range(len(stack_index)):
 
 df_train['stack_index'] = stack_index
 df_stack_index = df_train.loc[:,['ID', 'stack_index', 'y']]
-print df_stack_index.groupby("stack_index").mean()['y']
-print df_stack_index.groupby("stack_index").count()['y']
+print(df_stack_index.groupby("stack_index").mean()['y'])
+print(df_stack_index.groupby("stack_index").count()['y'])
 
 del df_stack_index['y']
 

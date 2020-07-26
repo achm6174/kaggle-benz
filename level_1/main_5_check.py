@@ -83,5 +83,6 @@ while True:
                     batch_size=32,
                     epochs = 1,
                     verbose = 0)
-    print str(k) + ': ' + str(r2_score(y_train[3500:], model.predict(train.drop("y", axis=1)[3500:].values))) + ' ' + str(mean_squared_error(y_train[3500:], model.predict(train.drop("y", axis=1)[3500:].values)))
+    print(str(k) + ': ' + str(r2_score(y_train[3500:], model.predict(train.drop("y", axis=1)[3500:].values))) +
+          ' ' + str(mean_squared_error(y_train[3500:], model.predict(train.drop("y", axis=1)[3500:].values))))
     k+=1

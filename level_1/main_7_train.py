@@ -89,7 +89,7 @@ for i in range(0, max(df_stack_index.stack_index+1)):
                       maximize=True
                      )
     best_iteration = cv_result.shape[0] - 1
-    print best_iteration
+    print(best_iteration)
     cv_mean = cv_result.iloc[-1, 2]
     cv_std = cv_result.iloc[-1, 3]
     print('CV-Mean: {0}+{1}'.format(cv_mean, cv_std))

@@ -13,14 +13,14 @@ df_6 = pd.read_csv("level_1/cache/train/main_6.csv")
 df_7 = pd.read_csv("level_1/cache/train/main_7.csv")
 df_8 = pd.read_csv("level_1/cache/train/main_8.csv")
 
-print r2_score(df_train.y.values, (df_1.y.values))
-print r2_score(df_train.y.values, (df_2.y.values))
-print r2_score(df_train.y.values, (df_3.y.values))
-print r2_score(df_train.y.values, (df_4.y.values))
-#print r2_score(df_train.y.values, (df_5.y.values))
-print r2_score(df_train.y.values, (df_6.y.values))
-print r2_score(df_train.y.values, (df_7.y.values))
-print r2_score(df_train.y.values, (df_8.y.values))
+print(r2_score(df_train.y.values, (df_1.y.values)))
+print(r2_score(df_train.y.values, (df_2.y.values)))
+print(r2_score(df_train.y.values, (df_3.y.values)))
+print(r2_score(df_train.y.values, (df_4.y.values)))
+#print(r2_score(df_train.y.values, (df_5.y.values)))
+print(r2_score(df_train.y.values, (df_6.y.values)))
+print(r2_score(df_train.y.values, (df_7.y.values)))
+print(r2_score(df_train.y.values, (df_8.y.values)))
 
 from scipy.optimize import minimize
 
@@ -43,9 +43,9 @@ initial_guess = np.array([1/5. for x in range(8)])
 
 coord = minimize(f,initial_guess,args = [],
                               method='Nelder-Mead')
-print coord
+print(coord)
 
-print r2_score(df_train.y.values,
+print(r2_score(df_train.y.values,
                 coord.x[0]*(df_1.y.values) +
                 coord.x[1]*(df_2.y.values) +
                 coord.x[2]*(df_3.y.values) +
@@ -54,7 +54,7 @@ print r2_score(df_train.y.values,
                 coord.x[5]*(df_6.y.values) +
                 coord.x[6]*(df_7.y.values) +
                 coord.x[7]*(df_8.y.values)
-                )
+                ))
 
 
 
